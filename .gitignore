@@ -1,0 +1,6 @@
+/node_modules/
+rppApi/node_modules/
+/old_stuff/
+rppFrontend/node_modules/
+rppFrontend/bower_components/
+.DS_Store
