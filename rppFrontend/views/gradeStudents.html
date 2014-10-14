@@ -1,0 +1,74 @@
+<div ng-include="'views/partials/navbar.html'"></div>
+
+
+
+<div class="container" ng-show="tasks[0]">
+	<h2 class="text-center">Grade Students <span> for Task :  {{tasks[0].name}} </span></h2>
+
+	<br><br>
+	<p ng-show="{{tasks[0].description}}"><strong>Task Description: </strong>{{tasks[0].description}}</p>
+	<p ng-show="{{tasks[0].link}}"><strong>Task Link: </strong>{{tasks[0].link}}</p>
+
+	<div class="row spacer">
+
+		<div class="col-md-12">
+
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th>#</th>
+						<th>Student Name</th>
+						<th>Submitted Material</th>
+						<th>Facilitator Comments</th>
+						<th>Score</th>
+					</tr>
+				</thead>
+				<tbody>
+
+					<tr ng-repeat="task in tasks">
+						<td>{{task.id}}</td>
+						<td>{{task.studentName}}</td>
+						<td>{{task.submittedComment}} 
+							<span ng-show="task.submittedFile">
+								<br/>
+								<a href="file://{{task.submittedFile}}">View Attached File</a>
+							</span>
+						</td>
+						<td><textarea class="form-control" rows="3" id="Comment{{task.id}}"></textarea></td>
+						<td>
+							<select class="form-control" id="Score{{task.id}}">
+							  <option>1</option>
+							  <option>2</option>
+							  <option>3</option>
+							  <option>4</option>
+							  <option>5</option>
+							  <option>6</option>
+							  <option>7</option>
+							  <option>8</option>
+							  <option>9</option>
+							  <option>10</option>
+							</select>
+						</td>
+						
+						<td>
+							<button ng-show="info.type=='teacher'" type="submit" ng-click="gradeTask(task.id)" class="btn btn-success btn-md pull-right">Grade</button>
+						</td>
+					</tr>
+
+				</tbody>
+			</table>
+
+			
+
+		</div>
+
+
+	</div>
+</div>
+
+<div class="container" ng-show="!tasks[0]">
+	<div class="well col-xs-8 col-sm-8 col-md-8 col-lg-8 col-xs-offset-2 col-sm-offset-2 col-md-offset-2 col-lg-offset-2">
+		<h4 style="text-align:center;">No records found!</h4>
+	</div>
+</div>
+

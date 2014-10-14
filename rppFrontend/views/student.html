@@ -1,0 +1,52 @@
+<div ng-include="'views/partials/navbar.html'"></div>
+
+<div class="container" ng-show="student">
+	<h1 class="text-center">Report for {{student.name}}</h1>
+
+	<div class="row spacer">
+		<div class="col-md-8">
+			<div class="row">
+				<div class="panel panel-primary">
+					<div class="panel-heading">
+						<h3 class="panel-title">Student Overview</h3>
+					</div>
+					<div class="panel-body">
+						<!--<p><strong>Avg time spent on a task: </strong>29m 34s</p>-->
+						<p><a href="#/studentTimeReport/{{student.id}}">View Time Report</a></p>
+						<p><a href="#/studentGradesReport/{{student.id}}">View Grade Report</a></p>
+						<!-- <span ng-show="studentProgress">
+							<h3>Pathway Progress</h3>
+							<div class="progress">
+								<div class="progress-bar" role="progressbar" aria-valuenow="{{studentProgress.progress}}" aria-valuemin="0" aria-valuemax="100" style="width: {{studentProgress.progress}}%;">
+									{{studentProgress.progress}}%
+								</div>
+							</div>
+						</span> -->
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-md-4" ng-show="student">
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+					<h3 class="panel-title">Student Information</h3>
+				</div>
+				<div class="panel-body">
+					<ul class="list-group">
+						<li class="list-group-item">Name: {{student.name}}</li>
+						<li class="list-group-item">Email: {{student.email}}</li>
+						<li class="list-group-item">Class: {{student.className}}</li>
+						<!-- <li class="list-group-item">Pahtway: {{student.pathName}}</li> -->
+						<!-- <li ng-show="studentProgress" class="list-group-item">Total Tasks in Path: {{studentProgress.total}}</li>
+						<li ng-show="studentProgress" class="list-group-item">Completed Tasks: {{studentProgress.completed}}</li>
+						<li ng-show="studentProgress" class="list-group-item">Percentage Completed: {{studentProgress.progress}}%</li> -->
+						
+				<!--    <li class="list-group-item">Presences: 20</li>
+						<li class="list-group-item">Absences: 12</li> -->
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

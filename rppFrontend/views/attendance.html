@@ -1,0 +1,56 @@
+<div ng-include="'views/partials/navbar.html'"></div>
+
+<div class="container">
+	<h1 class="text-center">Attendance Report</h1>
+
+	<div class="row spacer">
+
+			<div class="well col-xs-8 col-sm-8 col-md-8 col-lg-8 col-xs-offset-2 col-sm-offset-2 col-md-offset-2 col-lg-offset-2">
+				<div class="col-sm-6">
+					<div class="form-group">
+
+						<label>Select Class</label>
+						<select class="form-control" ng-model="assignedClass" ng-change="changeDate()">
+							<option ng-repeat="class in classes" ng-selected="{{class.id == assignedClass}}" value="{{class.id}}">{{class.name}}</option>
+						</select>
+					</div>
+				</div>
+				
+				<div class="col-sm-6">
+					<div id="sandbox-container">
+						<label>Select Date</label>
+						<div class="input-group date">
+						  <input type="text" class="form-control">
+						  <span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="well col-xs-8 col-sm-8 col-md-8 col-lg-8 col-xs-offset-2 col-sm-offset-2 col-md-offset-2 col-lg-offset-2">
+				<div class="col-md-12">
+					<div class="row spacer"></div>
+				<div class="input-group">
+					<input type="text" class="form-control" ng-model="query" placeholder="Filter by name">
+					<span class="input-group-addon">Filter</span>
+				</div>
+				<div class="row user-row spacer" ng-repeat="student in attendance | filter:query">
+					<div class="col-xs-3 col-sm-2 col-md-1 col-lg-1">
+						<img class="img-circle"
+						src="https://lh5.googleusercontent.com/-b0-k99FZlyE/AAAAAAAAAAI/AAAAAAAAAAA/eu7opA4byxI/photo.jpg?sz=50"
+						alt="User Pic">
+					</div>
+					<div class="col-xs-8 col-sm-9 col-md-10 col-lg-10">
+						<strong><a href="#/student/{{student.id}}">{{student.name}}</a></strong><br>
+						<span class="text-success">{{student.Present ? 'Present' : 'Absent'}}</span>
+					</div>
+
+				</div>
+
+			</div>
+			
+
+		</div>
+
+
+	</div>
+</div>

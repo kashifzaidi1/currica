@@ -1,0 +1,266 @@
+<div ng-include="'views/partials/navbar.html'"></div>
+
+<!-- Student PathWay Modal -->
+<div class="modal fade" id="addStudentToPathWayModal" tabindex="-1" role="dialog" aria-labelledby="addStudentToPathWayModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+				<h4 class="modal-title" id="addStudentToPathWayModalLabel">Add Student to Pathway</h4>
+			</div>
+			<div class="modal-body">
+				<form role="form">
+
+					<div class="form-group">
+
+						<label>Select Class</label>
+						<select class="form-control" ng-model="assignedClass" ng-change="getStudents()">
+							<option ng-repeat="class in classes" ng-selected="{{class.id == assignedClass}}" value="{{class.id}}">{{class.name}}</option>
+						</select>
+
+					</div>
+
+					<div class="form-group">
+
+						<label>Select Student</label>
+						<select class="form-control" ng-model="assignedStudent" >
+							<option ng-repeat="student in students" ng-selected="{{student.student.id == assignedStudent}}" value="{{student.student.id}}">{{student.student.name}}</option>
+						</select>
+					</div>
+
+					<div class="form-group">
+						<label>Assign to Pathway</label>
+						<select class="form-control" ng-model="assignedPathway" >
+							<option ng-repeat="pathway in pathways"  ng-selected="{{pathway.id == assignedPathway}}" value="{{pathway.id}}">{{pathway.name}}</option>
+						</select>
+					</div>
+					<hr/>
+					<button type="submit" ng-click="addStudentToPathway()" class="btn btn-default btn-success">Add to Pathway</button>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Student Modal -->
+<div class="modal fade" id="addStudentModal" tabindex="-1" role="dialog" aria-labelledby="addStudentModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+				<h4 class="modal-title" id="addStudentModalLabel">Add Student</h4>
+			</div>
+			<div class="modal-body">
+				<form role="form">
+					<div class="form-group">
+						<label>Name</label>
+						<input type="text" class="form-control" ng-model="studentData.name" placeholder="Name">
+					</div>
+
+					<div class="form-group">
+						<label>Email</label>
+						<input type="text" class="form-control" ng-model="studentData.email" placeholder="example@example.com">
+					</div>
+
+					<div class="form-group">
+						<label>Password</label>
+						<input type="password" class="form-control" ng-model="studentData.password" placeholder="Enter password here">
+					</div>
+
+					<div class="form-group">
+
+						<label>Assign to Pathway</label>
+						<select class="form-control" ng-model="assignedPathway" >
+							<option ng-repeat="pathway in pathways"  ng-selected="{{pathway.id == assignedPathway}}" value="{{pathway.id}}">{{pathway.name}}</option>
+						</select>
+
+					</div>
+
+					<div class="form-group">
+
+						<label>Assign to Class</label>
+						<select class="form-control" ng-model="assignedClass" >
+							<option ng-repeat="class in classes" ng-selected="{{class.id == assignedClass}}" value="{{class.id}}">{{class.name}}</option>
+						</select>
+
+					</div>
+					<hr/>
+					<button type="submit" ng-click="addStudent()" class="btn btn-default btn-success">Add Student</button>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<!-- Teacher Modal -->
+<div class="modal fade" id="addTeacherModal" tabindex="-1" role="dialog" aria-labelledby="addTeacherModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+				<h4 class="modal-title" id="addTeacherModalLabel">Add Teacher</h4>
+			</div>
+			<div class="modal-body">
+				<form role="form">
+						<div class="form-group">
+							<label>Name</label>
+							<input type="text" class="form-control" ng-model="teacherData.name" placeholder="Name">
+						</div>
+
+						<div class="form-group">
+							<label>Email</label>
+							<input type="text" class="form-control" ng-model="teacherData.email" placeholder="example@example.com">
+						</div>
+
+						<div class="form-group">
+							<label>Password</label>
+							<input type="password" class="form-control" ng-model="teacherData.password" placeholder="Enter password here">
+						</div>
+						
+						<hr/>
+						<button type="submit" ng-click="addTeacher()" class="btn btn-default btn-success">Add Teacher</button>
+					</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Admin Modal -->
+<div class="modal fade" id="addAdminModal" tabindex="-1" role="dialog" aria-labelledby="addAdminModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+				<h4 class="modal-title" id="addAdminModalLabel">Add Admin</h4>
+			</div>
+			<div class="modal-body">
+				<form role="form">
+					<div class="form-group">
+						<label>Name</label>
+						<input type="text" class="form-control" ng-model="adminData.name" placeholder="Name">
+					</div>
+					
+					<div class="form-group">
+						<label>Email</label>
+						<input type="text" class="form-control" ng-model="adminData.email" placeholder="example@example.com">
+					</div>
+
+					<div class="form-group">
+						<label>Password</label>
+						<input type="password" class="form-control" ng-model="adminData.password" placeholder="Enter password here">
+					</div>
+
+					<hr/>
+					<button type="submit" ng-click="addAdmin()" class="btn btn-default btn-success">Add Admin</button>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Classes Modal -->
+<div class="modal fade" id="addClassModal" tabindex="-1" role="dialog" aria-labelledby="addClassModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+				<h4 class="modal-title" id="addClassModalLabel">Add Class</h4>
+			</div>
+			<div class="modal-body">
+				<form role="form">
+					<div class="form-group">
+						<label>Class Name</label>
+						<input type="text" class="form-control" ng-model="className" placeholder="Name">
+					</div>
+					<div class="form-group">
+
+						<label>Teacher</label>
+						<select class="form-control" ng-model="assignedTeacher" >
+							<option ng-repeat="teacher in teachers" ng-selected="{{teacher.id == assignedTeacher}}" value="{{teacher.id}}">{{teacher.name}}</option>
+						</select>
+
+					</div>
+					<hr/>
+					<button type="submit" ng-click="addClass()" class="btn btn-default btn-success">Add Class</button>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<div class="container">
+	<h1>Control Panel</h1>
+	<hr/>
+	<div class="sessionGrid">
+			<div class="row spacer">
+				<!-- student -->
+				<div class="col-md-3" >
+					<div class="panel panel-info">
+						<div class="panel-heading">
+							<span > Students </span>
+						</div>
+						<div class="panel-body" ng-hide="info.type == 'student'" >
+							<p>Add new students to the school</p>
+							<hr/>
+							<a type="button" class="anchor" data-toggle="modal" data-target="#addStudentModal">Add New Student</a><p></p>
+							<a type="button" class="anchor" data-toggle="modal" data-target="#addStudentToPathWayModal">Add Student to PathWay</a>
+						</div>
+					</div>
+				</div>
+				<!-- student -->
+
+				<!-- teacher -->
+				<div class="col-md-3" >
+					<div class="panel panel-info">
+						<div class="panel-heading">
+							<span > Teachers </span>
+						</div>
+						<div class="panel-body" ng-hide="info.type == 'student'" >
+							<p>Add new Teachers</p>
+							<hr/>
+							<a type="button" class="anchor" data-toggle="modal" data-target="#addTeacherModal">Add Teacher</a>
+						</div>
+					</div>
+				</div>
+				<!-- teacher -->
+
+				<!-- admin -->
+				<div class="col-md-3" >
+					<div class="panel panel-info">
+						<div class="panel-heading">
+							<span > Admins </span>
+						</div>
+						<div class="panel-body" ng-hide="info.type == 'student'" >
+							<p>Add other admin accounts</p>
+							<hr/>
+							<a type="button" class="anchor" data-toggle="modal" data-target="#addAdminModal">Add Admin</a>
+						</div>
+					</div>
+				</div>
+				<!-- admin -->
+
+				<!-- class -->
+				<div class="col-md-3" >
+					<div class="panel panel-info">
+						<div class="panel-heading">
+							<span > Classes </span>
+						</div>
+						<div class="panel-body" ng-hide="info.type == 'student'" >
+							<p>Add new classes</p>
+							<hr/>
+							<a type="button" class="anchor" data-toggle="modal" data-target="#addClassModal">Add Class</a>
+						</div>
+					</div>
+				</div>
+				<!-- class -->
+				
+			</div>
+
+		</div>
+
+
+</div>
+<br/>
+<br/>

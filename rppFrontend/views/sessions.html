@@ -1,0 +1,182 @@
+<div ng-include="'views/partials/navbar.html'"></div>
+
+<!-- Modal -->
+<div class="modal fade" id="showModal" tabindex="-1" role="dialog" aria-labelledby="mModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+				<h4 class="modal-title" id="mModalLabel">Task</h4>
+			</div>
+			<div class="modal-body">
+				<div class="form-group">
+					<label>Name</label>
+					<input type="text" class="form-control" id="showModalName" ng-model="viewTaskData.name" name="taskname" placeholder="Text input">
+				</div>
+				<div class="form-group" ng-show="viewTaskData.link">
+					<label>Link</label>
+					<input type="text" class="form-control" ng-model="viewTaskData.link" id="showModalLink" name="link" placeholder="Text input">
+				</div>
+				<div class="form-group" ng-show="viewTaskData.description">
+					<label>Description</label>
+					<textarea class="form-control" name="desc" ng-model="viewTaskData.description" id="showModalDesc" rows="3"></textarea>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+				<h4 class="modal-title" id="myModalLabel">Add Task</h4>
+			</div>
+			<div class="modal-body">
+				<form role="form" class="addTaskForm">
+					<div class="form-group">
+						<label>Task Name</label>
+						<input type="text" class="form-control" ng-model="addTaskName" name="taskname" placeholder="Text input">
+					</div>
+					<div class="form-group">
+						<label>Add Link</label>
+						<input type="text" class="form-control" name="link" ng-model="addTaskLink" placeholder="Text input">
+					</div>
+					<div class="form-group">
+						<label>Add Description</label>
+						<textarea class="form-control" name="desc" ng-model="addTaskDescription" rows="3"></textarea>
+					</div>
+					<!-- <div class="form-group">
+						<label>Class Time</label>
+						<input type="text" class="form-control" name="link" placeholder="Class Time">
+					</div> -->
+					<button type="submit" ng-click="addTaskToSession()" class="btn btn-success">Add Task</button>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="container">
+
+	<h1 class="text-center">Sessions</span></h1>
+
+	<div class="row">
+
+		<div class="col-md-12">
+
+			<button ng-hide="info.type == 'student'"  type="submit" class="btn btn-info btn-lg pull-right" data-toggle="modal" data-target="#addSession">Add Session</button>
+
+			<div class="modal fade" id="addSession" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+							<h4 class="modal-title" id="myModalLabel">Add Session</h4>
+						</div>
+						<div class="modal-body">
+							<div class="form-group">
+								<label for="sessionName">Session Name</label>
+								<input type="text" class="form-control" id="sessionName" ng-model="newSessionName">
+							</div>
+
+							<div class="form-group">
+								<label for="sessionDesc">Session Description</label>
+								<textarea ng-model="newSessionDescription" class="form-control" rows="3" id="sessionDesc"></textarea>
+							</div>
+
+							<button id="addSessionButton" ng-click="addNewSession()" class="btn btn-success spacer">Add Session</button>
+
+
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+	<div class="sessionGrid">
+		<div class="row spacer allSessions">
+
+			<div class="col-md-4 eachSession" ng-repeat="session in sessions">
+
+				<div class="panel panel-info">
+					<!-- Default panel contents -->
+					<div class="panel-heading">
+						<span class=""> {{session.name}} </span>
+						<span ng-hide="info.type == 'student'" class="pull-right anchor clear" ng-click="removeSession(session.id)"> Delete</span>
+					</div>
+					<div class="panel-body">
+						<p>{{session.description}}</p>
+					</div>
+
+					<!-- List group -->
+					<ul class="list-group" id="listGroup">
+						
+						<li class="list-group-item" ng-repeat="task in session.tasks">
+							<span ng-click="viewTask('showModal',task.name,task.link,task.description)" class="taskName anchor">{{task.name}}</span>
+							<span ng-hide="info.type == 'student'" class="remove pull-right anchor" 
+							ng-click="removeTask(task.id)">x</span>
+						</li>
+					</ul>
+
+					<div class="panel-body" ng-hide="info.type == 'student'" >
+
+						<button type="button" ng-click="setSessionIdToModal(session.id)" class="btn btn-success btn-lg" data-toggle="modal" data-target="#myModal">Add Task</button>
+					</div>
+				</div>
+			</div>
+
+			
+		</div>
+
+	</div>
+
+	<!-- <div class="sessionGrid">
+		<div class="row spacer allSessions">
+
+			<div class="row row-centered eachSession" ng-repeat="session in sessions">
+
+				<div class="col-xs-8 col-centered ">
+
+					<div class="panel panel-info">
+						
+						<div class="panel-heading">
+							<span class=""> {{session.name}} </span>
+							<span ng-hide="info.type == 'student'" class="pull-right anchor clear" ng-click="removeSession(session.id)"> Delete</span>
+						</div>
+						<div class="panel-body">
+							<p>{{session.description}}</p>
+						</div>
+
+						
+						<ul class="list-group" id="listGroup">
+							
+							<li class="list-group-item" ng-repeat="task in session.tasks">
+								<span ng-click="viewTask('showModal',task.name,task.link,task.description)" class="taskName anchor">{{task.name}}</span>
+								<span ng-hide="info.type == 'student'" class="remove pull-right anchor" 
+								ng-click="removeTask(task.id)">remove</span>
+							</li>
+						</ul>
+
+						<div class="panel-body" ng-hide="info.type == 'student'" >
+
+							<button type="button" ng-click="setSessionIdToModal(session.id)" class="btn btn-success btn-lg" data-toggle="modal" data-target="#myModal">Add Task</button>
+						</div>
+					</div>
+
+				</div>
+				
+			</div>
+
+			
+		</div>
+
+	</div> -->
+
+</div>

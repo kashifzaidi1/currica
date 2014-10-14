@@ -1,0 +1,48 @@
+<div ng-include="'views/partials/navbar.html'"></div>
+<div class="container" ng-show="!err">
+
+	<h1 class="text-center">Detailed Grade Report
+		<span ng-show="tasks"> for {{tasks[0].student.name}} </span>
+	</h1>
+
+	<div class="well col-xs-8 col-sm-8 col-md-8 col-lg-8 col-xs-offset-2 col-sm-offset-2 col-md-offset-2 col-lg-offset-2">
+			<label>Filter by Task</label>
+			<div class="input-group">
+				<input type="text" class="form-control" ng-model="query">
+				<span class="input-group-addon">Filter</span>
+			</div>
+
+		<div class="col-md-12 spacer">
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th>#</th>
+						<th>Task Name</th>
+						<th>Score</th>
+						<th>Comments</th>
+						<th>Graded By</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat = "task in tasks |filter:query | orderBy:'id'" >
+						<td>{{task.id}}</td>
+						<td>{{task.task.name}}</td>
+						<td>{{task.gradeQuantity}}</td>
+						<td>{{task.gradeQuality}}</td>
+						<td>{{task.teacher.name}}</td>
+					</tr>
+				</tbody>
+			</table>
+
+		</div>
+
+
+	</div>
+</div>
+
+
+<div class="container" ng-show="err">
+	<div class="well col-xs-8 col-sm-8 col-md-8 col-lg-8 col-xs-offset-2 col-sm-offset-2 col-md-offset-2 col-lg-offset-2">
+		<h4>No submissions!</h4>
+	</div>
+</div>

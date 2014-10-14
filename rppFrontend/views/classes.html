@@ -1,0 +1,21 @@
+<div ng-include="'views/partials/navbar.html'"></div>
+
+<div class="container">
+		<h1 class="text-center">Class List</h1>
+
+		<div class="row spacer">
+
+			<div class="input-group">
+				<input type="text" class="form-control" ng-model="query">
+				<span class="input-group-addon">Filter</span>
+			</div>
+
+
+			<ul class="list-group spacer">
+				<li class="list-group-item" ng-repeat="class in classes | filter:query"><a href="#/ungradedTasks/{{class.id}}">{{class.name}}</a></li>
+			</ul>
+
+		</div>
+
+	</div>
+</div>

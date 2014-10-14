@@ -1,0 +1,60 @@
+<div ng-include="'views/partials/navbar.html'"></div>
+
+<div class="container">
+	<h1 class="text-center">Pathways</h1>
+
+	<div class="row spacer">
+
+		<div class="col-md-12">
+
+			<button ng-hide="info.type == 'student'" type="submit" class="btn btn-info btn-lg pull-right" data-toggle="modal" data-target="#addPath">Add Pathway</button>
+
+			<div class="modal fade" id="addPath" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+							<h4 class="modal-title" id="myModalLabel">Add Pathway</h4>
+						</div>
+						<div class="modal-body">
+
+							<form>
+
+								<div class="form-group">
+									<label for="pathName">Pathway Name</label>
+									<input type="text" class="form-control" id="pathName" ng-model="newPathwayName">
+								</div>
+
+							</form>
+							
+							<button id="addPathButton" ng-click="addNewPathway('addPathButton');" class="btn btn-success spacer">Add Pathway</button>
+
+
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+	<div class="row spacer">
+
+		<div class="input-group">
+			<input type="text" class="form-control"  ng-model="query">
+			<span class="input-group-addon">Filter</span>
+		</div>
+
+	</div>
+	
+
+	<div class="row spacer">
+
+		<ul class="list-group">
+			<li class="list-group-item" ng-repeat="pathway in pathways | filter:query">
+				<a href="#/sessions/{{pathway.id}}">{{pathway.name}}</a>
+			</li>
+		</ul>
+
+	</div>
+</div>

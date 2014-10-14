@@ -1,0 +1,29 @@
+<div ng-include="'views/partials/navbar.html'"></div>
+
+<div class="container">
+	<h1 class="text-center">Ungraded Tasks <span ng-show="tasks[0]"> for {{tasks[0].className}}</span></h1>
+
+	<div class="row spacer" ng-show="tasks[0]">
+
+		<div class="input-group">
+			<input type="text" class="form-control" ng-model="query">
+			<span class="input-group-addon">Filter</span>
+		</div>
+
+		<ul class="list-group spacer">
+			<li class="list-group-item" ng-repeat="task in tasks | filter:query">
+				<a href="#/gradeStudents/class/{{classID}}/task/{{task.taskID}}">{{task.name}}</a>
+			</li>
+		</ul>
+
+	</div>
+
+	<div class="row spacer" ng-show="!tasks[0]">
+
+		<div class="well col-xs-8 col-sm-8 col-md-8 col-lg-8 col-xs-offset-2 col-sm-offset-2 col-md-offset-2 col-lg-offset-2">
+			<h4 style="text-align:center;">No new submissions!</h4>
+		</div>
+
+	</div>
+
+</div>

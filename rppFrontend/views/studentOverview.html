@@ -1,0 +1,48 @@
+<div ng-include="'views/partials/navbar.html'"></div>
+<div class="container">
+	<h1 class="text-center">Class List</h1>
+
+	<div class="row spacer">
+
+		<div class="form-group spacer">
+
+			<label>Select Class</label>
+			<select class="form-control" ng-model="assignedClass" ng-change="getStudents()">
+				<option ng-repeat="class in classes" ng-selected="{{class.id == assignedClass}}" value="{{class.id}}">{{class.name}}</option>
+			</select>
+		</div>
+		
+	</div>
+
+	<div class="row spacer" ng-show="students">
+
+		<div class="well col-xs-8 col-sm-8 col-md-8 col-lg-8 col-xs-offset-2 col-sm-offset-2 col-md-offset-2 col-lg-offset-2">
+			<div class="input-group">
+				<input type="text" class="form-control" ng-model="query">
+				<span class="input-group-addon">Filter</span>
+			</div>
+			<div class="row user-row spacer" ng-repeat="student in students | filter:query">
+				<div class="col-xs-3 col-sm-2 col-md-1 col-lg-1">
+					<img class="img-circle"
+					src="https://lh5.googleusercontent.com/-b0-k99FZlyE/AAAAAAAAAAI/AAAAAAAAAAA/eu7opA4byxI/photo.jpg?sz=50"
+					alt="User Pic">
+				</div>
+				<div class="col-xs-8 col-sm-9 col-md-10 col-lg-10">
+					<strong><a href="#/student/{{student.student.id}}">{{student.student.name}}</a></strong><br>
+					<span class="text-muted">Joined on {{student.createdAt |date:'MMMM Do YYYY'}}</span>
+				</div>
+
+			</div>
+
+		</div>
+
+	</div>
+
+	<div class="row spacer" ng-show="!students[0]">
+
+		<div class="well col-xs-8 col-sm-8 col-md-8 col-lg-8 col-xs-offset-2 col-sm-offset-2 col-md-offset-2 col-lg-offset-2">
+			<h4 style="text-align:center;">No Students</h4>
+		</div>
+
+	</div>
+</div>	

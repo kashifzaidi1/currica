@@ -1,0 +1,112 @@
+<div ng-include="'views/partials/navbar.html'"></div>
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+				<h4 class="modal-title" id="myModalLabel">Add Task</h4>
+			</div>
+			<div class="modal-body">
+				
+				<form role="form">
+					<div class="form-group">
+						<label for="submittedFile">Upload a file</label>
+						<input type="file" ng-file-select="onFileSelect($files)" >
+					</div>
+					<div class="progress" style="margin-top: 20px;">
+                    	<div class="progress-bar" progress-bar="uploadProgress" role="progressbar">
+                      		<span ng-bind="uploadProgress"></span>
+                      		<span>%</span>
+                    	</div>
+                  	</div>
+					<div class="form-group">
+						<label>Add Comments</label>
+						<textarea class="form-control" name="submittedComment" ng-model="submittedComment" id="submittedComment" rows="3"></textarea>
+					</div>
+					<button type="submit" class="btn btn-default" ng-click="completeTask()">Submit</button>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="container ">
+	
+	<div class="row" >
+		<div class="col-sm-12">
+			<label>Select Path</label>
+			<select class="form-control" ng-model="selectedPath" ng-change="loadForPath()">
+				<option ng-repeat="path in user.paths" ng-selected="{{path.PathId == selectedPath}}" value="{{path.PathId}}">{{path.path.name}}</option>
+			</select>
+			<div class="row spacer" ng-show="noTasksForToday">
+				<h4 style="text-align:center;">No more tasks for today!<a href="#/studentGradesReport/{{user.id}}" > you can view your grades here</a>
+				</h4>
+			</div>
+			<div class="row spacer" ng-show="pathFinished">
+				<h4 style="text-align:center;">You have completed your path!<a href="#/studentGradesReport/{{user.id}}" > you can view your grades here</a>
+				</h4>
+			</div>
+			<div class="" ng-show="!pathFinished && !noTasksForToday">
+				<hr/>
+				
+				<div class="panel panel-success" ng-show="session.tasks.length">
+				  <div class="panel-body">
+				    Hello {{user.name}}, You have {{getRemaingTasksLength()}} task
+					<span ng-show="getRemaingTasksLength() > 1">s</span> remaining. <span class="pull-right"><a href="#/studentGradesReport/{{user.id}}" >view your grades here!<span></a>
+				  </div>
+				</div>
+
+				<div class="row spacer" >
+					<div ng-class="{'col-md-8' : leaderBoard[0] , 'col-md-12' : !leaderBoard[0]}">
+						<div class="row equal">
+							<div class="col-md-6" ng-repeat="task in session.tasks | orderBy:'taskSequenceNumber'">
+								<div class="panel panel-info" >
+									<!-- Default panel contents -->
+									<div class="panel-heading text-center">{{task.name}}</div>
+									<div class="panel-body">
+										<p>{{task.description}}</p>
+										<a ng-show="task.link" target="_blank" href="{{task.link}}"> Go to link </a>
+										<div class="spacer text-center">
+											<button type="button" class="btn btn-success" ng-show="task.recordExists != 0" ng-class="{'disabled' : task.isSubmitted}" data-toggle="modal" ng-click="setCurrentTaskId(task.id)"data-target="#myModal">
+												{{ (task.isSubmitted)? 'Already Completed':  'Submit Task'}}</button>
+
+												<button type="button" class="btn btn-success" ng-show="task.recordExists == 0" ng-class="{'disabled' : task.isSubmitted}" ng-click="startTask(task.id)">
+													{{ (task.isSubmitted)? 'Already Completed' : 'Start Task'}}</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+					</div>
+					<div class="col-md-4" ng-show="leaderBoard[0]">
+						<div class="panel panel-info">
+							<!-- Default panel contents -->
+							<div class="panel-heading text-center"><strong>Leaderboard</strong></div>
+							<div class="panel-body">
+								
+								<div class="row" ng-repeat = "leader in leaderBoard">
+									<div class="col-md-6">
+										<span>{{leader.name}}</span>
+									</div>
+									<div class="col-md-6">
+										<div class="progress">
+											<div class="progress-bar" role="progressbar" aria-valuenow="{{leader.progress}}" aria-valuemin="0" aria-valuemax="100" style="width: {{leader.progress}}%;">
+												{{leader.progress}}%
+											</div>
+										</div>
+									</div>
+								</div>
+								
+
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>		
+
+
+</div>
