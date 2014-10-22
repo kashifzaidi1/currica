@@ -41,17 +41,17 @@ exports.getUngradedTasksByTaskID = function(req, res){
 };
 
 var updateCompletedSessions = function(taskID, studentID, sessionID, task, res){
-  var completedQuery = 'select count(*) as count from SubmittedTasks s, Tasks t '
-    + ' where s.studentID = '+studentID+' and s.taskId = t.id  and s.isSubmitted = true '
-    + ' and t.sessionId = (select sessionId from Tasks where id = '+taskID+')';
+  var completedQuery = 'SELECT count(*) AS count FROM `SubmittedTasks` s, `Tasks` t '
+    + ' WHERE s.studentID = '+studentID+' AND s.taskId = t.id  AND s.isSubmitted = true '
+    + ' AND t.sessionId = (SELECT sessionId FROM Tasks WHERE id = '+taskID+')';
     sequelize.query(completedQuery,null,{raw:true}).success(function(completedCount){
       if(completedCount.length > 0){
-        var totalQuery = 'select count(*) as count from Tasks t '
-          +' where t.sessionId = (select sessionId from Tasks where id = '+taskID+')';
+        var totalQuery = 'SELECT count(*) AS count FROM Tasks t '
+          +' WHERE t.sessionId = (SELECT sessionId FROM Tasks WHERE id = '+taskID+')';
           sequelize.query(totalQuery,null,{raw:true}).success(function(totalCount){
             if(totalCount.length > 0 && totalCount[0].count == completedCount[0].count){
               var date = new Date();
-              var query = "INSERT into CompletedSessions (SessionId, StudentId, createdAt, updatedAt) "
+              var query = "INSERT INTO `CompletedSessions` (SessionId, StudentId, createdAt, updatedAt) "
               + " VALUES ("+sessionID+","+studentID+",'"+date.toISOString()+"','"+date.toISOString()+"');"
               sequelize.query(query, null,{raw:true}).success(function(){
                 task["sessionFinished"]= true;
@@ -92,8 +92,8 @@ var updateTask = function(submittedFile, req, res){
 };
 
 exports.getLastSubmittedTaskByUser = function(req, res){
-  sequelize.query("SELECT * from submittedTasks where StudentID = "+req.param('studentID')+
-   " and endTime = (SELECT max(endTime) from submittedTasks where studentID = "+req.param('studentID')+");",db.submittedTasks,{raw:true}).success(function(submittedTask){
+  sequelize.query("SELECT * FROM `submittedTasks` WHERE StudentID = "+req.param('studentID')+
+   " and endTime = (SELECT MAX(endTime) FROM `submittedTasks` WHERE studentID = "+req.param('studentID')+");",db.submittedTasks,{raw:true}).success(function(submittedTask){
     if(submittedTask.length > 0){
       utils.successObject(submittedTask[0], res);
     }

@@ -6,7 +6,7 @@ angular.module('rppFrontEnd')
 	  var ApiService = {};
 	  // configured since it makes the PHP session more secure
 	  $http.defaults.withCredentials = true;
-	  ApiService.baseUri = "http://0.0.0.0:3000/";
+	  ApiService.baseUri = "http://rppapi.utm.io/";
 
 	  /**
 	   * Performs a get call for the API

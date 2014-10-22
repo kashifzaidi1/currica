@@ -119,6 +119,7 @@ angular.module('rppFrontEnd')
 	};
 
 	$scope.loadSpecificSession = function(sessionID){
+		console.log(sessionID);
 		SessionService.getSessionTasksByStudent(sessionID, $scope.user.id, $scope.selectedPath).then(function(sessionWithTasks){
 			$scope.session = {tasks: sessionWithTasks.data};
 			$scope.checksForSession();

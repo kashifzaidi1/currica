@@ -29,9 +29,9 @@ exports.getSessionByPathID = function(req, res){
 }
 
 exports.getNextSessionInPath = function(req, res){
-  var query = 'select * from sessions s where s.id =  '
-    +' (Select min(id) from sessions where pathID = '+req.param('pathID')+' '
-    +'  and id > (SELECT Max(sessionID) FROM CompletedSessions where studentId = '+req.param('studentID')+')) '; 
+  var query = 'SELECT * FROM `Sessions` s WHERE s.id =  '
+    +' (SELECT min(id) FROM `Sessions` WHERE pathID = '+req.param('pathID')+' '
+    +'  AND id > (SELECT MAX(sessionID) FROM CompletedSessions WHERE studentId = '+req.param('studentID')+')) '; 
 
   sequelize.query(query, null, {raw:true}).success(function(data){
     if(data.length > 0){
@@ -46,8 +46,8 @@ exports.getNextSessionInPath = function(req, res){
 };
 
 exports.getFirstSessionInPath = function(req, res){
-  var query = 'select * from sessions s '
-    + '  where s.id =  (Select min(id) from sessions where pathID = '+req.param('pathID')+' )'
+  var query = 'select * FROM `Sessions` s '
+    + '  WHERE s.id =  (Select min(id) FROM `Sessions` WHERE pathID = '+req.param('pathID')+' )'
 
   sequelize.query(query,null,{raw:true}).success(function(session){
     if(session.length > 0){
@@ -64,17 +64,17 @@ exports.getFirstSessionInPath = function(req, res){
 exports.getTasksForUserByStudentIDAndSessionID = function(req, res){
   var query = 'SELECT t.id, t.name, t.link, t.description, t.taskSequenceNumber, t.createdAt, s.id as sessionId, ( '
       + ' CASE  '
-      + ' WHEN EXISTS (  SELECT *  FROM submittedTasks sut '
+      + ' WHEN EXISTS (  SELECT *  FROM `SubmittedTasks` sut '
       + ' WHERE sut.studentID = '+req.param('studentID')+' '
       + ' AND sut.taskID = t.id AND sut.isSubmitted = TRUE  ) '
       + ' THEN TRUE ELSE FALSE END ) AS isSubmitted , ( '
       + ' CASE  '
       + ' WHEN EXISTS ( SELECT *  '
-      + ' FROM submittedTasks sut '
+      + ' FROM `SubmittedTasks` sut '
       + ' WHERE sut.studentID = '+req.param('studentID')+' '
       + ' AND sut.taskID = t.id  ) '
       + ' THEN TRUE  ELSE FALSE  END ) AS recordExists '
-      + ' FROM tasks t, sessions s '
+      + ' FROM `Tasks` t, `Sessions` s '
       + ' WHERE t.SessionId = s.id '
       + ' AND s.PathId = '+req.param('pathID')+' '
       + ' AND t.sessionId = '+req.param('sessionID')+''; 
@@ -92,7 +92,7 @@ exports.getTasksForUserByStudentIDAndSessionID = function(req, res){
 };
 
 exports.getSessionByTaskID = function(req, res){
-  sequelize.query("SELECT * from Sessions where Sessions.id = (SELECT sessionID from Tasks where Tasks.id = "+req.param('taskID')+");",db.Sessions,{raw:true}).success(function(sessions){
+  sequelize.query("SELECT * FROM `Sessions` WHERE Sessions.id = (SELECT sessionID FROM `Tasks` WHERE Tasks.id = "+req.param('taskID')+");",db.Sessions,{raw:true}).success(function(sessions){
     if(sessions.length > 0){
       utils.successObject(sessions[0], res);
     }
