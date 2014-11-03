@@ -6,11 +6,11 @@ module.exports = function(sequelize, DataTypes) {
       primarykey : true
     },
     name : {
-      type : DataTypes.STRING,
+      type : DataTypes.TEXT,
       defaultValue : "not set"
     },
     description : {
-      type : DataTypes.STRING
+      type : DataTypes.TEXT
     }
   }, {
     classMethods : {

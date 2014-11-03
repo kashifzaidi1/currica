@@ -10,13 +10,13 @@ module.exports = function(sequelize, DataTypes) {
       defaultValue : false
     },
     submittedFile : {
-      type : DataTypes.STRING
+      type : DataTypes.TEXT
     },
     submittedComment : {
-      type : DataTypes.STRING
+      type : DataTypes.TEXT
     },
     gradeQuality : {
-      type : DataTypes.STRING
+      type : DataTypes.TEXT
     },
     gradeQuantity : {
       type : DataTypes.INTEGER

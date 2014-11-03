@@ -25,7 +25,7 @@ exports.getAttendanceByStudent = function(req, res){
 exports.create = function(req, res) {
   var query = 'SELECT count(*) as count '
     +' FROM `Attendances` '
-    +' WHERE DATE( createdAt ) = CURDATE( ) and studentId = '+ req.param('studentID')+';'
+    +' WHERE DATE( createdAt ) = CURDATE( ) and StudentId = '+ req.param('studentID')+';'
     sequelize.query(query,null,{raw:true}).success(function(count){
       if(count.length>0 && count[0].count == 0){
         db.Students.find({ where: { id: req.param('studentID') } }).success(function(Student) {
@@ -57,9 +57,9 @@ exports.getAttendanceForDay = function(req, res){
     + ' ) '
     + ' THEN TRUE ELSE FALSE END '
     + ' ) AS Present '
-    + ' FROM `Students` s, `classStudents` c '
+    + ' FROM `Students` s, `ClassStudents` c '
     + ' WHERE s.id = c.StudentId '
-    + ' AND c.classId = '+req.param('classID')+' ;'
+    + ' AND c.ClassId = '+req.param('classID')+' ;'
 
     sequelize.query(query, null, {raw:true}).success(function(result){
       utils.successObject(result, res);

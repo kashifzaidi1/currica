@@ -118,6 +118,11 @@
     clear: both;
 }
 
+.row.spacer.allTasks div.eachTask:nth-child(2n+1) {
+    clear: both;
+}
+
+
 /* centered columns styles */
 .row-centered {
     text-align:center;

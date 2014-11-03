@@ -61,11 +61,8 @@ exports.getStudentProgress = function(req, res){
   var query = 'SELECT ( '
     +' SELECT COUNT( s.id ) '
     +' FROM  `Tasks` t,  `Sessions` s '
-    +' WHERE s.id = t.sessionID '
-    +' AND s.PathID = ( '
-    +' SELECT PathId '
-    +' FROM Students '
-    +' WHERE id = '+req.param('student_id')+' ) '
+    +' WHERE s.id = t.SessionId '
+    +' AND s.PathID =  '+req.param('pathID')
     +' ) AS total, ( '
     +' SELECT COUNT( st.id ) '
     +' FROM  `SubmittedTasks` st,  `Tasks` t,  `Sessions` s,  `Paths` p '

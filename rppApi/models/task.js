@@ -6,14 +6,14 @@ module.exports = function(sequelize, DataTypes) {
       primarykey : true
     },
     name : {
-      type : DataTypes.STRING,
+      type : DataTypes.TEXT,
       defaultValue : "not set"
     },
     link : {
-      type : DataTypes.STRING
+      type : DataTypes.TEXT
     },
     description : {
-      type : DataTypes.STRING
+      type : DataTypes.TEXT
     },
     taskSequenceNumber : {
       type : DataTypes.INTEGER

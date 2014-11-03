@@ -42,12 +42,12 @@ exports.getUngradedTasksByTaskID = function(req, res){
 
 var updateCompletedSessions = function(taskID, studentID, sessionID, task, res){
   var completedQuery = 'SELECT count(*) AS count FROM `SubmittedTasks` s, `Tasks` t '
-    + ' WHERE s.studentID = '+studentID+' AND s.taskId = t.id  AND s.isSubmitted = true '
-    + ' AND t.sessionId = (SELECT sessionId FROM Tasks WHERE id = '+taskID+')';
+    + ' WHERE s.StudentID = '+studentID+' AND s.TaskId = t.id  AND s.isSubmitted = true '
+    + ' AND t.SessionId = (SELECT SessionId FROM Tasks WHERE id = '+taskID+')';
     sequelize.query(completedQuery,null,{raw:true}).success(function(completedCount){
       if(completedCount.length > 0){
         var totalQuery = 'SELECT count(*) AS count FROM Tasks t '
-          +' WHERE t.sessionId = (SELECT sessionId FROM Tasks WHERE id = '+taskID+')';
+          +' WHERE t.SessionId = (SELECT SessionId FROM Tasks WHERE id = '+taskID+')';
           sequelize.query(totalQuery,null,{raw:true}).success(function(totalCount){
             if(totalCount.length > 0 && totalCount[0].count == completedCount[0].count){
               var date = new Date();
@@ -93,7 +93,7 @@ var updateTask = function(submittedFile, req, res){
 
 exports.getLastSubmittedTaskByUser = function(req, res){
   sequelize.query("SELECT * FROM `submittedTasks` WHERE StudentID = "+req.param('studentID')+
-   " and endTime = (SELECT MAX(endTime) FROM `submittedTasks` WHERE studentID = "+req.param('studentID')+");",db.submittedTasks,{raw:true}).success(function(submittedTask){
+   " and endTime = (SELECT MAX(endTime) FROM `submittedTasks` WHERE StudentID = "+req.param('studentID')+");",db.submittedTasks,{raw:true}).success(function(submittedTask){
     if(submittedTask.length > 0){
       utils.successObject(submittedTask[0], res);
     }
@@ -119,8 +119,8 @@ exports.submitTaskFromStudent = function(req, res){
 exports.getUngradedTasksByClassAndTask = function(req, res){
   var query = 'SELECT tsks.id as taskID, t.id , t.submittedFile, t.submittedComment, tsks.name , stu.name AS studentName, '+
   ' stu.id as studentID, tsks.description, tsks.link  FROM `SubmittedTasks` t, `ClassStudents` s, `Tasks` tsks, `Students` stu '+
-  'WHERE t.StudentId = s.Studentid and tsks.id = t.taskID and t.StudentId = stu.id and '+
-  'classId = '+req.param('classID')+' and t.taskID = '+req.param('taskID')+' and t.isGraded = false '+
+  'WHERE t.StudentId = s.Studentid and tsks.id = t.TaskID and t.StudentId = stu.id and '+
+  'classId = '+req.param('classID')+' and t.TaskID = '+req.param('taskID')+' and t.isGraded = false '+
   'and t.isSubmitted = true;';
 
   sequelize.query(query,null,{raw:true}).success(function(data){
@@ -165,8 +165,8 @@ exports.getGradeReportForStudent = function(req, res){
 
 exports.getUngradedTasksGroupsByClass = function(req, res){
 
-  sequelize.query("SELECT distinct(t.taskID), tsks.name, c.name as className FROM `SubmittedTasks` t, `ClassStudents` s, `Tasks` tsks, `Classes` c "+
-    " WHERE t.StudentId = s.Studentid and tsks.id = t.taskID and s.classId = c.id and s.classId = "+req.param('classID')+" and t.isGraded = false and t.isSubmitted = true; ", null, {raw:true}).success(function(data){
+  sequelize.query("SELECT distinct(t.TaskID), tsks.name, c.name as className FROM `SubmittedTasks` t, `ClassStudents` s, `Tasks` tsks, `Classes` c "+
+    " WHERE t.StudentId = s.Studentid and tsks.id = t.TaskID and s.ClassId = c.id and s.ClassId = "+req.param('classID')+" and t.isGraded = false and t.isSubmitted = true; ", null, {raw:true}).success(function(data){
         if(data.length > 0) 
           utils.successObject(data, res);
         else
@@ -219,7 +219,7 @@ exports.create = function(req, res) {
 };
 
 exports.leaderBoard = function(req, res){
-  var query = 'SELECT s.studentId, c.classId, st.name, COUNT( * ) AS completed, ( '
+  var query = 'SELECT s.StudentId, c.ClassId, st.name, COUNT( * ) AS completed, ( '
     +' SELECT COUNT( * ) '
     +' FROM Tasks t, Paths p, Sessions s '
     +' WHERE p.id = '+req.param('pathID')+'  '
@@ -231,14 +231,14 @@ exports.leaderBoard = function(req, res){
     +' AND tks.id = s.TaskId '
     +' AND ss.id = tks.SessionId '
     +' AND ss.PathId = '+req.param('pathID')+' '
-    +' AND c.classId = (  '
-    +' SELECT classId '
+    +' AND c.ClassId = (  '
+    +' SELECT ClassId '
     +' FROM classStudents '
     +' WHERE StudentId = '+req.param('studentID')+' )  '
     +' AND s.isSubmitted = TRUE '
     +' AND st.id = c.StudentId '
     +' AND st.id = s.StudentId '
-    +' GROUP BY s.studentId '
+    +' GROUP BY s.StudentId '
     +' ORDER BY completed DESC LIMIT 0 , 5 ';
 
     sequelize.query(query, null, {raw:true}).success(function(data){
