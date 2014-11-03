@@ -64,7 +64,7 @@ angular.module('rppFrontEnd', [
         controller: 'AttendanceCtrl'
       })
       .when('/admin', {
-        templateUrl: 'views/Admin.html',
+        templateUrl: 'views/admin.html',
         controller: 'AdminCtrl'
       })
       .otherwise({
